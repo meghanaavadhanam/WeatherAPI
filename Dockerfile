@@ -13,17 +13,16 @@ COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy project files (including app/ and wx_data if needed)
+# Copy project files (including app/, start_worker.sh, etc.)
 COPY . .
+
+# Make the script executable
+RUN chmod +x /usr/src/app/start_worker.sh
 
 # Avoid Python buffering
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 
-# Start FastAPI app
+# Default command: run FastAPI app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-
-COPY start_worker.sh /usr/src/app/start_worker.sh
-WORKDIR /usr/src/app
-RUN chmod +x /usr/src/app/start_worker.sh
