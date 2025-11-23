@@ -18,7 +18,7 @@ if not DEFAULT_DB_URL:
 
 AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")      
 AWS_SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY") 
-AWS_REGION = os.getenv("AWS_REGION", "us-east-1")  
+AWS_REGION = os.getenv("AWS_REGION", "us-east-2")  
 S3_BUCKET = os.getenv("S3_BUCKET") 
 S3_KEY = os.getenv("S3_KEY")                        
 
@@ -152,7 +152,7 @@ def fast_ingest(data_dir: str, db_url: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", default="/tmp/wx_data", help="path to wx files")  # NEW default
+    parser.add_argument("--data-dir", default="/tmp/wx_data", help="path to wx files")  
     parser.add_argument("--db-url", default=DEFAULT_DB_URL)
     args = parser.parse_args()
     fast_ingest(args.data_dir, args.db_url)

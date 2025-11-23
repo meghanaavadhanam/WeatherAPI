@@ -2,12 +2,11 @@
 import os
 from sqlalchemy import create_engine
 from app.db.models import Base
+from app.db.models import Weather, WeatherYearlyStats
 
-
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql+psycopg2://postgres:Teradata900..@localhost:5432/weatherdb"
-)
-
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is missing! Set it in your environment.")
 
 def create_tables():
     engine = create_engine(DATABASE_URL, echo=False, future=True)
