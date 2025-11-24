@@ -2,10 +2,6 @@
 
 Small API service that ingests weather data from S3, stores it in PostgreSQL, computes statistics, and exposes endpoints for raw and aggregated data.
 
-## DEPLOYMENT - deployed in Render
-
-https://weatherapi-n4l0.onrender.com/docs#
-
 ---
 
 ## Prerequisites
@@ -100,3 +96,6 @@ tests/
     ```
 
 ---
+## DEPLOYMENT - deployed in Render 
+
+https://weatherapi-n4l0.onrender.com/docs#
