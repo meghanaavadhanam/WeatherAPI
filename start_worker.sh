@@ -48,5 +48,4 @@ echo "STEP 3: Computing yearly stats..."
 python -m app.analysis
 
 echo "ALL DONE! Starting web server..."
-# Use production-friendly Uvicorn command (no --reload)
-exec uvicorn app.main:app --host 0.0.0.0 --port 8000
+exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
