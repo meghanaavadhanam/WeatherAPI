@@ -97,14 +97,3 @@ tests/
     ```
 
 ---
-
-## Notes & Suggestions
-
-- Ensure the DATABASE_URL in .env points to the postgres service (when using compose: postgresql://postgres:password@postgres:5432/weatherdb or the value your setup uses).
-- For local development, exposing PYTHONPATH=/code in docker-compose.environment ensures imports work consistently.
-- Add a README section per endpoint (optional) or an OpenAPI reference update if API surface changes.
-
----
-If you want, I can:
-- add a short README section showing example curl requests for each endpoint, or
-- generate a simple CONTRIBUTING or DEV_SETUP guide with step-by-step local development instructions.
