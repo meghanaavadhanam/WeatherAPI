@@ -43,7 +43,9 @@ class Weather(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    __table_args__ = (UniqueConstraint("station_id", "obs_date", name="uniq_station_date"),)
+    __table_args__ = (
+        UniqueConstraint("station_id", "obs_date", name="uniq_station_date"),
+    )
 
 
 class WeatherYearlyStats(Base):
@@ -59,4 +61,6 @@ class WeatherYearlyStats(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    __table_args__ = (UniqueConstraint("station_id", "year", name="uniq_stats_station_year"),)
+    __table_args__ = (
+        UniqueConstraint("station_id", "year", name="uniq_stats_station_year"),
+    )

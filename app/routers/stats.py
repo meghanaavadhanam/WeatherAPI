@@ -8,6 +8,7 @@ from app import crud, schemas
 
 router = APIRouter()
 
+
 @router.get("/", response_model=dict)
 def list_stats(
     station_id: Optional[str] = Query(None),

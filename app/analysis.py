@@ -3,7 +3,7 @@ import os
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+psycopg2://postgres:Teradata900..@localhost:5432/weatherdb"
+    "postgresql+psycopg2://postgres:Teradata900..@localhost:5432/weatherdb",
 )
 
 UPSERT_SQL = """ 
@@ -27,11 +27,13 @@ ON CONFLICT (station_id, year)
     created_at = EXCLUDED.created_at;
 """
 
+
 def compute_and_store():
     engine = create_engine(DATABASE_URL, future=True)
     with engine.begin() as conn:
         conn.execute(text(UPSERT_SQL))
     print("Yearly stats computed and upserted.")
+
 
 if __name__ == "__main__":
     compute_and_store()

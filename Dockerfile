@@ -6,7 +6,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /code
 
 # Install Python deps
 COPY requirements.txt .
@@ -17,7 +17,7 @@ RUN pip install --upgrade pip setuptools wheel && \
 COPY . .
 
 # Make the script executable
-RUN chmod +x /usr/src/app/start_worker.sh
+RUN chmod +x /code/start_worker.sh
 
 # Avoid Python buffering
 ENV PYTHONUNBUFFERED=1

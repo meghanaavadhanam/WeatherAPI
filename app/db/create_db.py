@@ -8,6 +8,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is missing! Set it in your environment.")
 
+
 def create_tables():
     engine = create_engine(DATABASE_URL, echo=False, future=True)
     Base.metadata.create_all(engine)

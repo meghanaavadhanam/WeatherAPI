@@ -16,16 +16,13 @@ DEFAULT_DB_URL = os.getenv("DATABASE_URL")
 if not DEFAULT_DB_URL:
     raise ValueError("DATABASE_URL missing! Define it in your .env file.")
 
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")      
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY") 
-AWS_REGION = os.getenv("AWS_REGION", "us-east-2")  
-S3_BUCKET = os.getenv("S3_BUCKET") 
-S3_KEY = os.getenv("S3_KEY")                        
+AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.getenv("AWS_REGION", "us-east-2")
+S3_BUCKET = os.getenv("S3_BUCKET")
+S3_KEY = os.getenv("S3_KEY")
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("ingest")
 
 
@@ -44,7 +41,7 @@ def download_and_extract_from_s3(target_dir: str):
         "s3",
         aws_access_key_id=AWS_ACCESS_KEY,
         aws_secret_access_key=AWS_SECRET_KEY,
-        region_name=AWS_REGION
+        region_name=AWS_REGION,
     )
 
     zip_path = os.path.join(target_dir, "wx_data.zip")
@@ -120,7 +117,9 @@ def fast_ingest(data_dir: str, db_url: str):
 
     engine = create_engine(db_url)
     print("Creating/truncating staging table...")
-    run_sql(engine, """
+    run_sql(
+        engine,
+        """
     CREATE TABLE IF NOT EXISTS weather_staging (
       station_id TEXT NOT NULL,
       obs_date_raw TEXT NOT NULL,
@@ -129,7 +128,8 @@ def fast_ingest(data_dir: str, db_url: str):
       prcp_raw INTEGER
     );
     TRUNCATE weather_staging;
-    """)
+    """,
+    )
 
     with tempfile.NamedTemporaryFile(delete=False, mode="w", encoding="utf-8") as tmp:
         tmpfile = tmp.name
@@ -152,7 +152,7 @@ def fast_ingest(data_dir: str, db_url: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", default="/tmp/wx_data", help="path to wx files")  
+    parser.add_argument("--data-dir", default="/tmp/wx_data", help="path to wx files")
     parser.add_argument("--db-url", default=DEFAULT_DB_URL)
     args = parser.parse_args()
     fast_ingest(args.data_dir, args.db_url)

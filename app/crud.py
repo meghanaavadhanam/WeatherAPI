@@ -6,6 +6,7 @@ from sqlalchemy import select, func, and_
 
 from app.db.models import Weather, WeatherYearlyStats
 
+
 def get_weather(
     db: Session,
     station_id: Optional[str] = None,
@@ -60,6 +61,10 @@ def get_stats(
     page_count = ceil(total / page_size) if total else 0
     offset = (max(1, page) - 1) * page_size
 
-    q = q.order_by(WeatherYearlyStats.station_id, WeatherYearlyStats.year).limit(page_size).offset(offset)
+    q = (
+        q.order_by(WeatherYearlyStats.station_id, WeatherYearlyStats.year)
+        .limit(page_size)
+        .offset(offset)
+    )
     results = db.execute(q).scalars().all()
     return total, page_count, results
