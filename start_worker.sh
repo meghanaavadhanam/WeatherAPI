@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Basic env checks
-if [ -z "${DATABASE_URL:-}" ]; then
-  echo "ERROR: DATABASE_URL is not set. Aborting." >&2
-  exit 1
-fi
+echo "[INFO] Starting API first so Render marks service healthy..."
+uvicorn app.main:app --host 0.0.0.0 --port 8000 &
 
 echo "STEP 1: Creating DB..."
 python -m app.db.create_db
+
 
 echo "STEP 1.5: Testing DB connectivity..."
 python - <<'PY'
@@ -47,5 +45,6 @@ python -m app.ingest $WX_DATA_DIR_ARG
 echo "STEP 3: Computing yearly stats..."
 python -m app.analysis
 
-echo "ALL DONE! Starting web server..."
-exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+echo "ALL DONE!"
+
+wait
