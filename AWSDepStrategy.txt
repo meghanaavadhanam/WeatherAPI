@@ -1,0 +1,14 @@
+AWS Deployment Strategy
+
+If I were to deploy this application in AWS, I would organize it in a way that cleanly separates the concerns of API serving, data storage, and scheduled data ingestion. The overall goal would be to create a cloud architecture that is scalable, and easy to maintain, while making good use of the AWS managed services.
+
+To host the API itself, I would containerize the FastAPI application (as I’ve already done for this project) and run it on AWS ECS using Fargate. ECS gives me a fully managed way to run Docker workloads without needing to maintain EC2 instances, and Fargate ensures the application automatically scales up or down based on load. I would store the application image in Amazon ECR, which integrates directly with ECS deployments. The API would sit behind an Application Load Balancer, so it can expose a stable public endpoint and handle routing and any future scaling.
+
+For storage, I would use Amazon RDS with PostgreSQL. This gives me a fully managed database with backups, automated patching, monitoring, and the ability to scale vertically or horizontally if needed. Running RDS inside a VPC also ensures the database is not exposed publicly—only the ECS service and the ingestion job would have permission to connect.
+
+The ingestion workflow is a natural fit for AWS Lambda. The ingestion script can be packaged as a Lambda function that connects to the RDS database and performs the bulk insertions and yearly statistics generation. Since this ingestion logic does not need a continuously running server, Lambda’s “run only when needed” model keeps costs low and reduces operational overhead. I would schedule the ingestion job using Amazon EventBridge, which allows cron-like schedules (e.g., daily, weekly, or monthly). If the dataset grows larger in the future, this could also be moved to ECS or AWS Batch, but Lambda is ideal for the current scale.
+
+Secrets such as database credentials and AWS access keys would live in AWS Secrets Manager. This provides proper security and makes the architecture production-ready.
+
+
+Overall, the architecture is lightweight but scalable: ECS Fargate for the API, RDS for durable storage, and Lambda + EventBridge for reliable, low-cost ingestion. It is easy to extend, secure by default, and well-aligned with AWS best practices.
