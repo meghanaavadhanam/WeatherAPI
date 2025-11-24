@@ -25,7 +25,7 @@ S3_KEY = os.getenv("S3_KEY")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("ingest")
 
-
+print(">>> PYTHON INGEST DB:", DEFAULT_DB_URL)
 # NEW — download from S3 & extract
 def download_and_extract_from_s3(target_dir: str):
     if os.path.exists(target_dir) and any(Path(target_dir).glob("*.txt")):

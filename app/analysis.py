@@ -2,9 +2,9 @@ from sqlalchemy import create_engine, text
 import os
 
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://postgres:Teradata900..@localhost:5432/weatherdb",
+    "DATABASE_URL"
 )
+print(">>> PYTHON ANALYSIS DB:", DATABASE_URL)
 
 UPSERT_SQL = """ 
 INSERT INTO weather_yearly_stats (

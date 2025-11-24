@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+echo ">>> STARTUP DATABASE_URL: ${DATABASE_URL}"
 
 echo "[INFO] Starting API first so Render marks service healthy..."
 uvicorn app.main:app --host 0.0.0.0 --port 8000 &
