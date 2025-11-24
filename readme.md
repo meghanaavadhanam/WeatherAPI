@@ -1,5 +1,4 @@
-// ...existing code...
-# 🌦️ Weather Station Data API
+# Weather Station Data API
 
 Small API service that ingests weather data from S3, stores it in PostgreSQL, computes statistics, and exposes endpoints for raw and aggregated data.
 
@@ -42,32 +41,32 @@ Note: This repo assumes you run commands from the root directory.
 ## Files & Purpose
 
 Top-level files
-- Dockerfile — container image for the app (Python dependencies, working dir /code, runs uvicorn).
-- docker-compose.yml — service definitions for app and postgres.
-- Makefile — convenience commands (test, lint, format).
-- requirements.txt — Python dependencies.
-- start_worker.sh — helper script (if present) for background workers or periodic tasks.
-- readme.md — this file.
-- tests/ — pytest unit tests (example: test_models.py).
+- Dockerfile - container image for the app (Python dependencies, working dir /code, runs uvicorn).
+- docker-compose.yml - service definitions for app and postgres.
+- Makefile - convenience commands (test, lint, format).
+- requirements.txt - Python dependencies.
+- start_worker.sh - helper script (if present) for background workers or periodic tasks.
+- readme.md - this file.
+- tests/ - pytest unit tests (example: test_models.py).
 
 app/ (application package)
-- __init__.py — package marker and any top-level initializations.
-- main.py — FastAPI app factory and route mounting. Entrypoint used by uvicorn.
+- __init__.py - package marker and any top-level initializations.
+- main.py - FastAPI app factory and route mounting. Entrypoint used by uvicorn.
 - routers/
-  - weather.py — API endpoints for raw weather data (CRUD / listings).
-  - stats.py — endpoints for aggregated statistics (annual summaries, etc).
+  - weather.py - API endpoints for raw weather data (CRUD / listings).
+  - stats.py - endpoints for aggregated statistics (annual summaries, etc).
 - db/
-  - models.py — SQLAlchemy models representing tables (Weather, etc).
-  - create_db.py — helper to create DB schema (runs migrations or SQLAlchemy metadata.create_all()).
-  - session.py — DB session maker and engine factory; central place for DATABASE_URL handling.
-  - __init__.py — exports convenience objects for DB access.
-- crud.py — functions that encapsulate DB operations (create, query, update) used by routers and tests.
-- schemas.py — Pydantic request/response models for API payload validation.
-- ingest.py — logic to fetch/parse weather files (S3 or local wx_data) and insert into DB.
-- analysis.py — functions that compute derived statistics from stored data (annual aggregates, percentiles).
+  - models.py - SQLAlchemy models representing tables (Weather, etc).
+  - create_db.py - helper to create DB schema (runs migrations or SQLAlchemy metadata.create_all()).
+  - session.py - DB session maker and engine factory; central place for DATABASE_URL handling.
+  - __init__.py - exports convenience objects for DB access.
+- crud.py - functions that encapsulate DB operations (create, query, update) used by routers and tests.
+- schemas.py - Pydantic request/response models for API payload validation.
+- ingest.py - logic to fetch/parse weather files (S3 or local wx_data) and insert into DB.
+- analysis.py - functions that compute derived statistics from stored data (annual aggregates, percentiles).
 
 tests/
-- test_models.py — simple unit tests for model/schema/DB behavior. Tests run inside the app container; ensure PYTHONPATH includes /code so the app package is importable.
+- test_models.py - simple unit tests for model/schema/DB behavior. Tests run inside the app container; ensure PYTHONPATH includes /code so the app package is importable.
 
 ---
 
